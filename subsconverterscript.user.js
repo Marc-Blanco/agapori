@@ -4,8 +4,8 @@ aaaa
 (function () {
     'use strict';
     const SERVER = 'http://localhost:8600';
-    const ep
-    const ep
+    const epurl = /\/ep(\d+)/;
+    //const 
     // miliseconds btw
     const POLL_INTERVAL = 3000;
     
@@ -14,15 +14,15 @@ aaaa
     let lastblob = null;
     
     function getepN() {
-        let match = location.herf.match(ep1);
+        let match = location.href.match(epurl);
         if (match) return match[1];
 
-        match = document.title.match(ep2);
-        if (match) return match[1]
+        //match = document.title.match(ep2);
+        //if (match) return match[1]
         
         return null;
     }
-    function srt-vtt(srt) {
+    function srt_vtt(srt) {
         //
         // const normalize = srt.replace(/\r/g, '');
         //const withD = normalize.replace(/(\d{2}:\d{2}:\d{2}), (\d{3})/g, '$1.$2')
