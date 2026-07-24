@@ -4,7 +4,7 @@ import http.server
 import socketserver
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8600
-DIRECTORY = sys.argv[2] if len(sys.argv) > 2 else "."
+DIRECTORY = sys.argv[2] if len(sys.argv) > 2 else "./"
 
 
 class CORSRequestHandler(http.server.SimpleHTTPRequestHandler):

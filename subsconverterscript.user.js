@@ -1,9 +1,21 @@
+// ==UserScript==
+// @name         Autoasbsubs
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  sm shit
+// @author       ryuo
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=localhost
+// @grant        GM_xmlhttpRequest
+// @connect      localhost
+// ==/UserScript==
+
 /* USE:
 aaaa
 */
 (function () {
     'use strict';
     const SERVER = 'http://localhost:8600';
+    //prob need more evd 
     const epurl = /\/ep(\d+)/;
     //const 
     // miliseconds btw
