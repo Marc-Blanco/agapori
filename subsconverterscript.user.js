@@ -1,29 +1,59 @@
 // ==UserScript==
-// @name         Autoasbsubs
+// @name         Autosubs Overlay
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  sm shit
+// @version      0.2
+// @description  Auto-inject local subtitles into whatever <video> is on the page, plus a small player HUD (speed, screenshot, sync offset, styling)
 // @author       ryuo
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=localhost
 // @grant        GM_xmlhttpRequest
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @connect      localhost
 // ==/UserScript==
+
 
 /* USE:
 aaaa
 */
 (function () {
     'use strict';
-    const SERVER = 'http://localhost:8600';
-    //prob need more evd 
-    const epurl = /\/ep(\d+)/;
-    //const 
+
+    const DEFAULTS = {
+        server: 'http://localhost:8600',
+        subSize: 100,
+        subColor: '#e8e6e1',
+        subBg: '#1e1e1e',
+        subBgOpacity: 55,
+        subpos: 0,
+        syncMs: 0, //Change as needed to sync subs with video
+        hudX: null,
+        HudY: null,
+    };
+    
+    function loadconfig() {
+        const config = {};
+        for (const k in DEFAULTS) {
+            const v = typeof GM_getValue === 'function' ? GM_getValue(k, DEFAULTS[k]) : DEFAULTS[k];
+            config[k] = v;
+        }
+        return config;
+    }
+
+    const config = loadconfig();
+
     // miliseconds btw
     const POLL_INTERVAL = 3000;
-    
     let lastep = null;
     let lastvd = null;
     let lastblob = null;
+    let activeCues = [];
+    let hudTimer = null;
+
+    const EP_PATTERNS = [
+        /\bs\d{1,2}e(\d{1,4})\b/i,
+        /\bep(?:isode)?[\s._-]?(\d{1,4})\b/i,
+        /(?:^|[\s._/-])e(\d{2,4})\b/i,
+    ];
     
     function getepN() {
         let match = location.href.match(epurl);
