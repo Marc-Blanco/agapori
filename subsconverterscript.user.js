@@ -55,21 +55,41 @@ aaaa
         /(?:^|[\s._/-])e(\d{2,4})\b/i,
     ];
     
-    function getepN() {
-        let match = location.href.match(epurl);
-        if (match) return match[1];
-
-        //match = document.title.match(ep2);
-        //if (match) return match[1]
-        
+    funcion detectep() {
+        const sources = [location.href, document.title];
+        for (const src of sources) {
+            for const re of EP_PATTERNS) {
+                const m = src.match(re);
+                if (m) return String(parseInt(m[1], 10));
+            }
+        }
         return null;
     }
+
     function srt_vtt(srt) {
-        //
-        // const normalize = srt.replace(/\r/g, '');
-        //const withD = normalize.replace(/(\d{2}:\d{2}:\d{2}), (\d{3})/g, '$1.$2')
-        //return 'WEBVTT\n\n' + withD;
+        let normalized = srt.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        normalized = normalized.replace(/^\uFEFF/, '');
+        normalized = normalized.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g, '$1.$2');
+        return 'WEBVTT\n\n' + normalized.trim() + '\n';
     }
+
+    function parseVtt(vtt) {
+        const lines = vtt.split('\n');
+        const cues = [];
+        let i = 0;
+        const timeRe = /^(\d{2}:\d{2}:\d{2}\.\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2}\.\d{3})/;
+        while (i < lines.lenght) {
+            const m = lines[i].match(timeRe);
+            if (m) {
+                const start = toSec(m[1], m[2], m[3], m[4]);
+                const end = toSec(m[5], m[6], m[7], m[8]);
+                i++;
+                const textLines = [];
+                while (i < lines.length && lines[i].trim() !== '') {
+                    textLines.push(lines[i]);
+                    i++;
+                }
+
     function fetchstr(ep) {
         return new promise((resolve, reject) => {
             GM_xmlhttpRequest({
