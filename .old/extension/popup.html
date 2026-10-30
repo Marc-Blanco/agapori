@@ -1,0 +1,68 @@
+<!doctype html>
+<html> 
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="popup.css"/>
+</head>
+<body>
+    <div class="root">
+        <header>
+            <span class="dot" id="status-dot"></span>
+            <span class="title">Agapori</span>
+        </header>
+        
+        <div class="status" id="status-text">checking this tab....</div>
+        
+        <section class="row">
+                <button id="speed-down" class="ctl">-speed</button>
+                <span id="speed-label" class="speed-label">1.0x</span>
+                <button id="speed-up" class="ctl">+speed</button>
+            </section>
+        <section class="row">
+            <button id="shot-btn" class="ctl">📷 screenshot</button>
+            <button id="pip-btn" class="ctl">📺 pip</button>
+        </section>
+
+        <details open>
+            <summary> Subtitle Styling</summary>
+            <div class="field">
+                <label><span>size</span><span id="size-val">100%</span></label>
+                <input type="range" id="size" min="50" max="200" value="100"/>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label><span>color</span></label>
+                    <input type="color" id="color" value="#e8e8e8"/>
+                </div>
+            <div class="field">
+                    <label><span>background</span></label>
+                    <input type="color" id="bgcolor" value="#1e1e1e"/>
+                </div>
+            </div>
+            <div class="field">
+                <label><span>font</span></label>
+                <select id="font">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Tahoma">Tahoma</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+            </div>
+            <div class="field">
+                <label><span>background opacity</span></label>
+                <input type="range" id="bgopacity" min="0" max="1" step="0.1" value="0.5"/>
+            </div>
+            <div class="field">
+                <label><span>sync offset</span><span id="sync-val">0.0s</span></label>
+                <input type="range" id="sync" min="-1000" max="1000" step="10" value="0" />
+            </div>
+        </details>
+        <footer>
+            <span id="frame-info">_</span>
+        </footer>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
